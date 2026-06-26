@@ -4,6 +4,10 @@
 
 Day 1 monorepo scaffold for a local observability and agent demo stack.
 
+Positioning theme: Talk to your entire system.
+
+Team Forte statement: Team Forte includes everyone helping this effort, both participants and non-participants in the competition.
+
 ## Quick Access
 
 - Operator console: http://localhost:8000/console
@@ -11,6 +15,20 @@ Day 1 monorepo scaffold for a local observability and agent demo stack.
 - Prometheus: http://localhost:9090
 
 If you just want to explore the Day 7 operator UX, open the operator console first. It renders the structured `sections`, `alerts`, and `next_steps` fields directly and now includes a raw JSON mode for payload inspection.
+
+## Concept to Production (Finance, 20+ Nodes)
+
+Detailed production rollout recommendation is available at `docs/production-go-live-plan.md`.
+
+Highlights:
+
+1. Freeze risk scope and critical finance journeys.
+2. Design a 20+ node HA topology with strict network boundaries.
+3. Enforce IAM, encryption, secrets management, and audit trails.
+4. Replace synthetic domain signals with production Kafka and Ignite telemetry.
+5. Apply deterministic AI controls, schema enforcement, and human approvals.
+6. Validate SLOs, resilience drills, DR rehearsals, and progressive canary rollout.
+7. Run hypercare and continuous improvement with Team Forte ownership.
 
 ## Screenshots
 
@@ -209,6 +227,16 @@ Available built-in scenarios:
 - `performance`
 - `change`
 - `logs`
+
+Operator console labels intentionally use engaging route aliases:
+
+- Ledger Lifeguard (health)
+- System Cartographer (architecture)
+- Kafka Knight (kafka)
+- Ignite Inspector (ignite)
+- Latency Sherlock (performance)
+- Audit Owl (change)
+- Log Whisperer (logs)
 
 Snapshot-style UX regression tests:
 

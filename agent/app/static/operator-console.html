@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AIEverywhere Operator Console</title>
+  <title>Talk to Your Entire System</title>
   <style>
     :root {
       --bg: #f4efe6;
@@ -76,6 +76,37 @@
       max-width: 64ch;
       color: var(--muted);
       font-size: 1rem;
+    }
+
+    .tagline {
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff7ea;
+      color: var(--muted);
+      font-size: 0.82rem;
+      padding: 6px 10px;
+      animation: drift 7s ease-in-out infinite;
+    }
+
+    .tag:nth-child(2) { animation-delay: 0.6s; }
+    .tag:nth-child(3) { animation-delay: 1.2s; }
+    .tag:nth-child(4) { animation-delay: 1.8s; }
+    .tag:nth-child(5) { animation-delay: 2.4s; }
+    .tag:nth-child(6) { animation-delay: 3s; }
+
+    .team-forte {
+      margin-top: 12px;
+      font-size: 0.92rem;
+      color: var(--muted);
+      border-left: 3px solid rgba(15, 118, 110, 0.35);
+      padding-left: 12px;
     }
 
     .layout {
@@ -287,6 +318,11 @@
       pointer-events: none;
     }
 
+    @keyframes drift {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-2px); }
+    }
+
     @media (max-width: 900px) {
       .layout {
         grid-template-columns: 1fr;
@@ -297,8 +333,17 @@
 <body>
   <main class="shell">
     <section class="hero">
-      <h1>Operator Console</h1>
-      <p>Ask the local agent for health, architecture, Kafka, Ignite, or performance guidance. The console renders the structured response fields directly instead of scraping freeform text.</p>
+      <h1>Talk to Your Entire System</h1>
+      <p>Navigate distributed finance complexity with one console view across health, architecture, Kafka, Ignite, performance, logs, and change intelligence for 20+ nodes.</p>
+      <div class="tagline">
+        <span class="tag">Ledger Lifeguard</span>
+        <span class="tag">Kafka Knight</span>
+        <span class="tag">Ignite Inspector</span>
+        <span class="tag">Latency Sherlock</span>
+        <span class="tag">Audit Owl</span>
+        <span class="tag">Log Whisperer</span>
+      </div>
+      <div class="team-forte">Team Forte includes everyone contributing to this mission: participants and non-participants in the competition.</div>
     </section>
 
     <section class="layout">
@@ -312,22 +357,22 @@
               <input id="demo-mode" type="checkbox">
             </div>
             <select id="demo-scenario">
-              <option value="health">Demo: Health</option>
-              <option value="architecture">Demo: Architecture</option>
-              <option value="kafka" selected>Demo: Kafka incident</option>
-              <option value="ignite">Demo: Ignite incident</option>
-              <option value="performance">Demo: Performance incident</option>
-              <option value="change">Demo: Change log</option>
-              <option value="logs">Demo: Log inquiry</option>
+              <option value="health">Demo: Ledger Lifeguard (Health)</option>
+              <option value="architecture">Demo: System Cartographer (Architecture)</option>
+              <option value="kafka" selected>Demo: Kafka Knight (Incident)</option>
+              <option value="ignite">Demo: Ignite Inspector (Incident)</option>
+              <option value="performance">Demo: Latency Sherlock (Performance)</option>
+              <option value="change">Demo: Audit Owl (Change Log)</option>
+              <option value="logs">Demo: Log Whisperer (Log Inquiry)</option>
             </select>
           </div>
           <div class="quick-prompts">
-            <button class="pill" type="button" data-question="Is the system healthy?">System health</button>
-            <button class="pill" type="button" data-question="What is the architecture of this system?">Architecture</button>
-            <button class="pill" type="button" data-question="How is Kafka doing right now and what should I do next?">Kafka</button>
-            <button class="pill" type="button" data-question="Is Ignite healthy right now and what alert should I raise?">Ignite</button>
-            <button class="pill" type="button" data-question="What changed today?">Change log</button>
-            <button class="pill" type="button" data-question="What do the recent logs show for ping requests?">Logs</button>
+            <button class="pill" type="button" data-question="Is the system healthy?">Ledger Lifeguard</button>
+            <button class="pill" type="button" data-question="What is the architecture of this system?">System Cartographer</button>
+            <button class="pill" type="button" data-question="How is Kafka doing right now and what should I do next?">Kafka Knight</button>
+            <button class="pill" type="button" data-question="Is Ignite healthy right now and what alert should I raise?">Ignite Inspector</button>
+            <button class="pill" type="button" data-question="What changed today?">Audit Owl</button>
+            <button class="pill" type="button" data-question="What do the recent logs show for ping requests?">Log Whisperer</button>
           </div>
           <div class="quick-prompts">
             <button id="submit" class="primary" type="button">Run Query</button>
