@@ -1,9 +1,10 @@
 import httpx
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import FileResponse
 from pathlib import Path
 
 from app.config import settings
+from app.demo import build_demo_response, list_demo_scenarios
 from app.graph import agent_graph
 from app.memory import get_or_create_conversation_id, load_chat_history, save_turn
 from app.schemas import AlertRecommendation, ObservabilityState, QueryRequest, QueryResponse, ResponseSection
@@ -26,6 +27,15 @@ def config() -> dict[str, str | float]:
 @app.get("/console")
 def console() -> FileResponse:
     return FileResponse(STATIC_DIR / "operator-console.html")
+
+
+@app.get("/query/demo", response_model=QueryResponse)
+def demo_query(scenario: str = Query(default="kafka")) -> QueryResponse:
+    try:
+        return build_demo_response(scenario)
+    except KeyError as exc:
+        available = ", ".join(list_demo_scenarios())
+        raise HTTPException(status_code=404, detail=f"Unknown demo scenario '{scenario}'. Available scenarios: {available}") from exc
 
 
 @app.post("/query", response_model=QueryResponse)

@@ -40,3 +40,6 @@
 - Added snapshot-style tests for representative operator response payloads.
 - Added a raw JSON inspection mode in the operator console.
 - Expanded snapshot coverage to health and performance payloads.
+- Added a canned `/query/demo` endpoint so the console can render stable demo scenarios without mutating live signals.
+- Added README screenshots for the operator console card view and JSON mode.
+- Added GitHub Actions CI to run the snapshot suite on pushes and pull requests.

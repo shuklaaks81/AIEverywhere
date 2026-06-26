@@ -114,6 +114,37 @@
       line-height: 1.45;
     }
 
+    select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: #fffdf9;
+      color: var(--ink);
+      font: inherit;
+    }
+
+    .mode-card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 14px;
+      background: #fffdf9;
+      display: grid;
+      gap: 10px;
+    }
+
+    .mode-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .mode-row label {
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
     .quick-prompts {
       display: flex;
       flex-wrap: wrap;
@@ -270,6 +301,19 @@
         <h2>Ask</h2>
         <div class="prompt-box">
           <textarea id="question">How is Kafka doing right now and what should I do next?</textarea>
+          <div class="mode-card">
+            <div class="mode-row">
+              <label for="demo-mode">Use canned demo response</label>
+              <input id="demo-mode" type="checkbox">
+            </div>
+            <select id="demo-scenario">
+              <option value="health">Demo: Health</option>
+              <option value="architecture">Demo: Architecture</option>
+              <option value="kafka" selected>Demo: Kafka incident</option>
+              <option value="ignite">Demo: Ignite incident</option>
+              <option value="performance">Demo: Performance incident</option>
+            </select>
+          </div>
           <div class="quick-prompts">
             <button class="pill" type="button" data-question="Is the system healthy?">System health</button>
             <button class="pill" type="button" data-question="What is the architecture of this system?">Architecture</button>
@@ -327,6 +371,8 @@
     const jsonViewEl = document.getElementById('json-view');
     const cardModeEl = document.getElementById('card-mode');
     const jsonModeEl = document.getElementById('json-mode');
+    const demoModeEl = document.getElementById('demo-mode');
+    const demoScenarioEl = document.getElementById('demo-scenario');
     let lastPayload = null;
 
     function setViewMode(mode) {
@@ -379,17 +425,19 @@
 
     async function runQuery() {
       const question = questionEl.value.trim();
-      if (!question) {
+      if (!question && !demoModeEl.checked) {
         questionEl.focus();
         return;
       }
       resultPanel.classList.add('loading');
       try {
-        const response = await fetch('/query', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ question })
-        });
+        const response = demoModeEl.checked
+          ? await fetch(`/query/demo?scenario=${encodeURIComponent(demoScenarioEl.value)}`)
+          : await fetch('/query', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ question })
+            });
         if (!response.ok) {
           throw new Error(`Request failed with status ${response.status}`);
         }
@@ -430,11 +478,22 @@
     document.querySelectorAll('[data-question]').forEach((button) => {
       button.addEventListener('click', () => {
         questionEl.value = button.dataset.question;
+        if (demoModeEl.checked) {
+          const lowered = button.dataset.question.toLowerCase();
+          if (lowered.includes('kafka')) demoScenarioEl.value = 'kafka';
+          else if (lowered.includes('ignite')) demoScenarioEl.value = 'ignite';
+          else if (lowered.includes('architecture')) demoScenarioEl.value = 'architecture';
+          else demoScenarioEl.value = 'health';
+        }
         runQuery();
       });
     });
     cardModeEl.addEventListener('click', () => setViewMode('cards'));
     jsonModeEl.addEventListener('click', () => setViewMode('json'));
+    demoModeEl.addEventListener('change', () => {
+      demoScenarioEl.disabled = !demoModeEl.checked;
+    });
+    demoScenarioEl.disabled = true;
     setViewMode('cards');
   </script>
 </body>

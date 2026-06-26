@@ -10,6 +10,14 @@ Day 1 monorepo scaffold for a local observability and agent demo stack.
 
 If you just want to explore the Day 7 operator UX, open the operator console first. It renders the structured `sections`, `alerts`, and `next_steps` fields directly and now includes a raw JSON mode for payload inspection.
 
+## Screenshots
+
+| Operator cards | Raw JSON mode |
+| --- | --- |
+| ![Operator console cards](docs/screenshots/operator-console-cards.png) | ![Operator console raw JSON mode](docs/screenshots/operator-console-json.png) |
+
+The screenshots above use the built-in demo fixture mode, so you can reproduce the same view without mutating live Kafka or Ignite demo signals.
+
 ## Layout
 
 - `infra/` Docker Compose file, local environment file, and Grafana provisioning.
@@ -184,6 +192,20 @@ curl -X POST http://localhost:8000/query \
 - A lightweight operator console is available at `/console` and renders `sections`, `alerts`, and `next_steps` directly from the response payload.
 - The operator console also includes a compact raw JSON mode so operators can inspect the exact response payload without leaving the UI.
 
+Demo fixture endpoint for the console and docs:
+
+```sh
+curl 'http://localhost:8000/query/demo?scenario=kafka'
+```
+
+Available built-in scenarios:
+
+- `health`
+- `architecture`
+- `kafka`
+- `ignite`
+- `performance`
+
 Snapshot-style UX regression tests:
 
 ```sh
@@ -197,6 +219,11 @@ Snapshot coverage now includes:
 - degraded performance investigation output
 - architecture reference sections
 - change-log reference sections
+
+## CI
+
+- GitHub Actions runs the snapshot suite automatically on every push to `main` and on pull requests.
+- Workflow file: `.github/workflows/snapshot-tests.yml`
 
 The current HTTP endpoint is:
 
