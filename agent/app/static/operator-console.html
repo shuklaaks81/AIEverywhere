@@ -163,6 +163,63 @@
       line-height: 1.25;
     }
 
+    .leadership-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: linear-gradient(120deg, rgba(15, 118, 110, 0.12), rgba(194, 65, 12, 0.1));
+      padding: 14px 16px;
+    }
+
+    .leadership-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0;
+      font-size: 1rem;
+      letter-spacing: 0.02em;
+    }
+
+    .leadership-title svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--ink);
+      stroke-width: 1.8;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .leadership-copy {
+      margin: 4px 0 0;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .signoff-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      border-radius: 999px;
+      border: 1px solid rgba(15, 118, 110, 0.35);
+      background: #fffdf9;
+      color: var(--ink);
+      padding: 10px 14px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: transform 120ms ease, box-shadow 120ms ease;
+    }
+
+    .signoff-link:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(15, 118, 110, 0.18);
+    }
+
     .layout {
       display: grid;
       grid-template-columns: 380px 1fr;
@@ -378,6 +435,11 @@
     }
 
     @media (max-width: 900px) {
+      .leadership-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
       .mission-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
@@ -447,6 +509,17 @@
           <span>Grounded recommendations with explicit next steps for operators.</span>
         </div>
       </article>
+    </section>
+
+    <section class="leadership-bar" aria-label="Leadership sign-off block">
+      <div>
+        <h2 class="leadership-title">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 4v5c0 4.5-2.7 7.6-7 9-4.3-1.4-7-4.5-7-9V7l7-4z"/><path d="M9.5 12l1.8 1.8 3.2-3.2"/></svg>
+          Leadership Sign-off
+        </h2>
+        <p class="leadership-copy">Executive readiness checkpoint for go or no-go decisions, evidence review, and accountable ownership.</p>
+      </div>
+      <a class="signoff-link" href="https://github.com/shuklaaks81/AIEverywhere/blob/main/docs/executive-go-live-checklist.md" target="_blank" rel="noopener noreferrer">Open checklist</a>
     </section>
 
     <section class="layout">

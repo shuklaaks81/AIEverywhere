@@ -281,15 +281,17 @@ The response includes:
 
 Competition-friendly contributor roles for Team Forte:
 
-- Program Sponsor: aligns scope, business goals, and sign-off gates.
-- Platform and Runtime Lead: owns deployment architecture, scaling, and resilience.
-- Observability and SRE Lead: owns SLOs, alert quality, incident response, and DR drills.
-- AI Reliability Lead: owns route controls, model fallback behavior, and response contract quality.
-- Security and Compliance Lead: owns IAM, encryption, auditability, and policy evidence.
-- Domain Service Leads: own Kafka, Ignite, and transaction service correctness.
-- QA and Release Lead: owns test gates, canary rollout criteria, and rollback readiness.
-- Developer Experience Lead: owns docs, runbooks, and onboarding velocity.
-- Competition Delivery Coordinator: keeps milestones, demos, and submission narrative aligned.
+| Role | Optional contributor name | Responsibility focus |
+| --- | --- | --- |
+| Program Sponsor | _[Optional: Name]_ | aligns scope, business goals, and sign-off gates |
+| Platform and Runtime Lead | _[Optional: Name]_ | owns deployment architecture, scaling, and resilience |
+| Observability and SRE Lead | _[Optional: Name]_ | owns SLOs, alert quality, incident response, and DR drills |
+| AI Reliability Lead | _[Optional: Name]_ | owns route controls, model fallback behavior, and response contract quality |
+| Security and Compliance Lead | _[Optional: Name]_ | owns IAM, encryption, auditability, and policy evidence |
+| Domain Service Leads | _[Optional: Name(s)]_ | own Kafka, Ignite, and transaction service correctness |
+| QA and Release Lead | _[Optional: Name]_ | owns test gates, canary rollout criteria, and rollback readiness |
+| Developer Experience Lead | _[Optional: Name]_ | owns docs, runbooks, and onboarding velocity |
+| Competition Delivery Coordinator | _[Optional: Name]_ | keeps milestones, demos, and submission narrative aligned |
 
 Team Forte includes all contributors helping deliver this system safely and effectively, including both participants and non-participants in the competition.
 
