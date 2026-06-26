@@ -109,6 +109,60 @@
       padding-left: 12px;
     }
 
+    .mission-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .mission-card {
+      background: linear-gradient(180deg, rgba(255, 250, 241, 0.96), rgba(253, 246, 235, 0.95));
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      gap: 10px;
+      align-items: center;
+      transition: transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .mission-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 22px rgba(22, 33, 31, 0.1);
+    }
+
+    .icon-wrap {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(160deg, rgba(15, 118, 110, 0.16), rgba(194, 65, 12, 0.16));
+      border: 1px solid rgba(15, 118, 110, 0.25);
+    }
+
+    .icon-wrap svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--ink);
+      stroke-width: 1.7;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .mission-card strong {
+      display: block;
+      font-size: 0.9rem;
+    }
+
+    .mission-card span {
+      color: var(--muted);
+      font-size: 0.8rem;
+      line-height: 1.25;
+    }
+
     .layout {
       display: grid;
       grid-template-columns: 380px 1fr;
@@ -324,7 +378,17 @@
     }
 
     @media (max-width: 900px) {
+      .mission-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
       .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 580px) {
+      .mission-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -344,6 +408,45 @@
         <span class="tag">Log Whisperer</span>
       </div>
       <div class="team-forte">Team Forte includes everyone contributing to this mission: participants and non-participants in the competition.</div>
+    </section>
+
+    <section class="mission-grid" aria-label="Operational capability cards">
+      <article class="mission-card">
+        <div class="icon-wrap" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.2 8.5-8 10-4.8-1.5-8-5-8-10V7l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <div>
+          <strong>Risk Shield</strong>
+          <span>Faster detection and safer triage for critical payment paths.</span>
+        </div>
+      </article>
+      <article class="mission-card">
+        <div class="icon-wrap" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M3 12h18"/><path d="M6 8l-3 4 3 4"/><path d="M18 8l3 4-3 4"/><path d="M8 4v4M16 16v4"/></svg>
+        </div>
+        <div>
+          <strong>Flow Watch</strong>
+          <span>Observe distributed service interactions across 20+ nodes.</span>
+        </div>
+      </article>
+      <article class="mission-card">
+        <div class="icon-wrap" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M4 18h16"/><path d="M6 18V9"/><path d="M12 18V5"/><path d="M18 18v-6"/><path d="M4 9h4"/></svg>
+        </div>
+        <div>
+          <strong>Signal Pulse</strong>
+          <span>Context-rich metrics, logs, and change intelligence in one surface.</span>
+        </div>
+      </article>
+      <article class="mission-card">
+        <div class="icon-wrap" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 2v6"/><path d="M5.6 5.6l4.2 4.2"/><path d="M2 12h6"/><path d="M18 12h4"/><path d="M14.2 9.8l4.2-4.2"/><path d="M8 18h8"/><path d="M9 22h6"/><path d="M8 14a4 4 0 118 0c0 2-1.2 3-2.2 4H10.2C9.2 17 8 16 8 14z"/></svg>
+        </div>
+        <div>
+          <strong>Decision Engine</strong>
+          <span>Grounded recommendations with explicit next steps for operators.</span>
+        </div>
+      </article>
     </section>
 
     <section class="layout">

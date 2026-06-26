@@ -20,6 +20,8 @@ If you just want to explore the Day 7 operator UX, open the operator console fir
 
 Detailed production rollout recommendation is available at `docs/production-go-live-plan.md`.
 
+Leadership one-page sign-off checklist is available at `docs/executive-go-live-checklist.md`.
+
 Highlights:
 
 1. Freeze risk scope and critical finance journeys.
@@ -274,6 +276,22 @@ The response includes:
 - `conversation_id` so the caller can continue the same thread.
 - `used_sources` showing which upstream systems were queried.
 - `context` containing the raw Prometheus and Loki summaries used for the answer.
+
+## Team Forte Credits
+
+Competition-friendly contributor roles for Team Forte:
+
+- Program Sponsor: aligns scope, business goals, and sign-off gates.
+- Platform and Runtime Lead: owns deployment architecture, scaling, and resilience.
+- Observability and SRE Lead: owns SLOs, alert quality, incident response, and DR drills.
+- AI Reliability Lead: owns route controls, model fallback behavior, and response contract quality.
+- Security and Compliance Lead: owns IAM, encryption, auditability, and policy evidence.
+- Domain Service Leads: own Kafka, Ignite, and transaction service correctness.
+- QA and Release Lead: owns test gates, canary rollout criteria, and rollback readiness.
+- Developer Experience Lead: owns docs, runbooks, and onboarding velocity.
+- Competition Delivery Coordinator: keeps milestones, demos, and submission narrative aligned.
+
+Team Forte includes all contributors helping deliver this system safely and effectively, including both participants and non-participants in the competition.
 
 ## macOS Caveat
 
