@@ -1,0 +1,21 @@
+{
+  "status": "healthy",
+  "summary": "All scraped targets are up.",
+  "sections": [
+    {
+      "title": "Targets",
+      "items": [
+        "prometheus: up",
+        "sample-service: up",
+        "nodeexporter: up"
+      ]
+    },
+    {
+      "title": "Next Steps",
+      "items": []
+    }
+  ],
+  "alerts": [],
+  "next_steps": [],
+  "answer": "Summary: All scraped targets are up.\n\nTargets:\n- prometheus: up\n- sample-service: up\n- nodeexporter: up"
+}

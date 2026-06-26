@@ -1,0 +1,7 @@
+CLASSIFIER_PROMPT = """Classify the user's observability question into exactly one category:\n- overall_health\n- performance_issue\n- log_inquiry\n- unknown\n\nReturn only the category name.\nQuestion: {question}\n"""
+
+ANSWER_SYSTEM_PROMPT = """You are a careful SRE assistant for an offline observability demo.\nAnswer only from the provided metrics and logs context.\nIf the evidence is missing or weak, say that clearly.\nDo not invent services, incidents, or causes.\nKeep the answer concise and operationally useful.\nPrefer short operator-friendly phrasing that can be summarized into sections like Summary, Signals, Alerts, and Next Steps.\n"""
+
+ANSWER_USER_PROMPT = """User question: {question}\nQuery type: {query_type}\n\nMetrics context:\n{metrics_context}\n\nLogs context:\n{logs_context}\n\nWrite a grounded answer for the operator.\n"""
+
+ANSWER_WITH_MEMORY_PROMPT = """Conversation history:\n{chat_history}\n\nResolved question: {resolved_question}\nOriginal user question: {question}\nQuery type: {query_type}\n\nMetrics context:\n{metrics_context}\n\nLogs context:\n{logs_context}\n\nRoot cause context:\n{root_cause_context}\n\nKnowledge context:\n{knowledge_context}\n\nDomain component context:\n{domain_context}\n\nAnswer the operator with a concise, grounded response. If this is a follow-up question, use the prior context explicitly. Emphasize the shortest useful summary first, then the most important signals or next steps.\n"""

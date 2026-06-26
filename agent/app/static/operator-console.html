@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIEverywhere Operator Console</title>
+  <style>
+    :root {
+      --bg: #f4efe6;
+      --panel: #fffaf1;
+      --ink: #16211f;
+      --muted: #5c695f;
+      --line: #d9cfbf;
+      --accent: #0f766e;
+      --accent-2: #c2410c;
+      --good: #166534;
+      --warn: #b45309;
+      --bad: #b91c1c;
+      --shadow: 0 20px 50px rgba(22, 33, 31, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(15, 118, 110, 0.12), transparent 28%),
+        radial-gradient(circle at top right, rgba(194, 65, 12, 0.10), transparent 24%),
+        linear-gradient(180deg, #f8f2e9 0%, var(--bg) 100%);
+      min-height: 100vh;
+    }
+
+    .shell {
+      width: min(1120px, calc(100% - 32px));
+      margin: 32px auto;
+      display: grid;
+      gap: 20px;
+    }
+
+    .hero,
+    .panel {
+      background: rgba(255, 250, 241, 0.92);
+      border: 1px solid rgba(217, 207, 191, 0.9);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .hero {
+      overflow: hidden;
+      position: relative;
+      padding: 28px;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -80px -100px auto;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(15, 118, 110, 0.18), transparent 65%);
+      transform: rotate(18deg);
+    }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      max-width: 10ch;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 64ch;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 20px;
+    }
+
+    .panel {
+      padding: 22px;
+    }
+
+    .panel h2 {
+      margin: 0 0 14px;
+      font-size: 1.1rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .prompt-box {
+      display: grid;
+      gap: 12px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 160px;
+      resize: vertical;
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: #fffdf9;
+      color: var(--ink);
+      font: inherit;
+      line-height: 1.45;
+    }
+
+    .quick-prompts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    button,
+    .pill {
+      border-radius: 999px;
+      border: 1px solid transparent;
+      padding: 10px 14px;
+      font: inherit;
+      cursor: pointer;
+      transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
+    }
+
+    button:hover,
+    .pill:hover { transform: translateY(-1px); }
+
+    .primary {
+      background: var(--ink);
+      color: #fffaf1;
+    }
+
+    .secondary,
+    .pill {
+      background: transparent;
+      border-color: var(--line);
+      color: var(--ink);
+    }
+
+    .response-head {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+      justify-content: space-between;
+    }
+
+    .response-tools {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.95rem;
+      background: #f6f0e5;
+      border: 1px solid var(--line);
+    }
+
+    .badge[data-tone="healthy"], .badge[data-tone="reference"], .badge[data-tone="clear"] {
+      color: var(--good);
+      border-color: rgba(22, 101, 52, 0.25);
+      background: rgba(22, 101, 52, 0.08);
+    }
+
+    .badge[data-tone="degraded"], .badge[data-tone="critical"], .badge[data-tone="attention"] {
+      color: var(--bad);
+      border-color: rgba(185, 28, 28, 0.25);
+      background: rgba(185, 28, 28, 0.08);
+    }
+
+    .badge[data-tone="elevated"], .badge[data-tone="warning"] {
+      color: var(--warn);
+      border-color: rgba(180, 83, 9, 0.25);
+      background: rgba(180, 83, 9, 0.08);
+    }
+
+    .summary-card {
+      border-radius: 20px;
+      padding: 18px;
+      background: linear-gradient(135deg, rgba(15, 118, 110, 0.10), rgba(255, 250, 241, 0.85));
+      border: 1px solid rgba(15, 118, 110, 0.16);
+      margin-bottom: 18px;
+    }
+
+    .summary-card strong {
+      display: block;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .sections {
+      display: grid;
+      gap: 14px;
+    }
+
+    .section-card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      background: #fffdf9;
+    }
+
+    .section-card h3 {
+      margin: 0 0 10px;
+      font-size: 1rem;
+    }
+
+    ul { margin: 0; padding-left: 18px; }
+    li + li { margin-top: 8px; }
+
+    .meta {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .json-view {
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: #111714;
+      color: #eef6f1;
+      overflow: auto;
+      font-family: "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+      font-size: 0.86rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .loading {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <h1>Operator Console</h1>
+      <p>Ask the local agent for health, architecture, Kafka, Ignite, or performance guidance. The console renders the structured response fields directly instead of scraping freeform text.</p>
+    </section>
+
+    <section class="layout">
+      <aside class="panel">
+        <h2>Ask</h2>
+        <div class="prompt-box">
+          <textarea id="question">How is Kafka doing right now and what should I do next?</textarea>
+          <div class="quick-prompts">
+            <button class="pill" type="button" data-question="Is the system healthy?">System health</button>
+            <button class="pill" type="button" data-question="What is the architecture of this system?">Architecture</button>
+            <button class="pill" type="button" data-question="How is Kafka doing right now and what should I do next?">Kafka</button>
+            <button class="pill" type="button" data-question="Is Ignite healthy right now and what alert should I raise?">Ignite</button>
+          </div>
+          <div class="quick-prompts">
+            <button id="submit" class="primary" type="button">Run Query</button>
+            <button id="clear" class="secondary" type="button">Clear</button>
+          </div>
+        </div>
+      </aside>
+
+      <section class="panel" id="result-panel">
+        <h2>Response</h2>
+        <div id="empty-state">Run a query to view the structured operator response.</div>
+        <div id="response" hidden>
+          <div class="response-head">
+            <div class="response-tools">
+              <span class="badge" id="status-badge"></span>
+              <span class="badge" id="query-type"></span>
+            </div>
+            <div class="response-tools">
+              <button id="card-mode" class="secondary" type="button">Operator cards</button>
+              <button id="json-mode" class="secondary" type="button">Raw JSON</button>
+            </div>
+          </div>
+          <div id="card-view">
+            <div class="summary-card">
+              <strong>Summary</strong>
+              <div id="summary"></div>
+            </div>
+            <div class="sections" id="sections"></div>
+            <div class="meta" id="meta"></div>
+          </div>
+          <pre id="json-view" class="json-view" hidden></pre>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    const questionEl = document.getElementById('question');
+    const submitEl = document.getElementById('submit');
+    const clearEl = document.getElementById('clear');
+    const resultPanel = document.getElementById('result-panel');
+    const emptyState = document.getElementById('empty-state');
+    const responseEl = document.getElementById('response');
+    const statusBadgeEl = document.getElementById('status-badge');
+    const queryTypeEl = document.getElementById('query-type');
+    const summaryEl = document.getElementById('summary');
+    const sectionsEl = document.getElementById('sections');
+    const metaEl = document.getElementById('meta');
+    const cardViewEl = document.getElementById('card-view');
+    const jsonViewEl = document.getElementById('json-view');
+    const cardModeEl = document.getElementById('card-mode');
+    const jsonModeEl = document.getElementById('json-mode');
+    let lastPayload = null;
+
+    function setViewMode(mode) {
+      const showJson = mode === 'json';
+      cardViewEl.hidden = showJson;
+      jsonViewEl.hidden = !showJson;
+      cardModeEl.className = showJson ? 'secondary' : 'primary';
+      jsonModeEl.className = showJson ? 'primary' : 'secondary';
+      if (showJson && lastPayload) {
+        jsonViewEl.textContent = JSON.stringify(lastPayload, null, 2);
+      }
+    }
+
+    function renderSection(section) {
+      const card = document.createElement('section');
+      card.className = 'section-card';
+      const title = document.createElement('h3');
+      title.textContent = section.title;
+      card.appendChild(title);
+      if (section.items && section.items.length) {
+        const list = document.createElement('ul');
+        section.items.forEach((item) => {
+          const li = document.createElement('li');
+          li.textContent = item;
+          list.appendChild(li);
+        });
+        card.appendChild(list);
+      } else {
+        const empty = document.createElement('div');
+        empty.textContent = 'No items.';
+        card.appendChild(empty);
+      }
+      return card;
+    }
+
+    function renderResponse(payload) {
+      lastPayload = payload;
+      emptyState.hidden = true;
+      responseEl.hidden = false;
+      statusBadgeEl.textContent = `Status: ${payload.status ?? 'unknown'}`;
+      statusBadgeEl.dataset.tone = payload.status ?? 'unknown';
+      queryTypeEl.textContent = `Route: ${payload.query_type}`;
+      queryTypeEl.dataset.tone = payload.status ?? 'unknown';
+      summaryEl.textContent = payload.summary ?? payload.answer ?? 'No summary available.';
+      sectionsEl.replaceChildren();
+      (payload.sections || []).forEach((section) => sectionsEl.appendChild(renderSection(section)));
+      metaEl.textContent = `Sources: ${(payload.used_sources || []).join(', ') || 'none'} | Conversation: ${payload.conversation_id}`;
+      jsonViewEl.textContent = JSON.stringify(payload, null, 2);
+    }
+
+    async function runQuery() {
+      const question = questionEl.value.trim();
+      if (!question) {
+        questionEl.focus();
+        return;
+      }
+      resultPanel.classList.add('loading');
+      try {
+        const response = await fetch('/query', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question })
+        });
+        if (!response.ok) {
+          throw new Error(`Request failed with status ${response.status}`);
+        }
+        const payload = await response.json();
+        renderResponse(payload);
+      } catch (error) {
+        emptyState.hidden = true;
+        responseEl.hidden = false;
+        statusBadgeEl.textContent = 'Status: error';
+        statusBadgeEl.dataset.tone = 'critical';
+        queryTypeEl.textContent = 'Route: request_failure';
+        queryTypeEl.dataset.tone = 'critical';
+        summaryEl.textContent = error.message;
+        sectionsEl.replaceChildren(renderSection({ title: 'Next Steps', items: ['Verify the agent is running and retry the query.'] }));
+        metaEl.textContent = 'The operator console could not reach the /query endpoint.';
+        jsonViewEl.textContent = JSON.stringify({ error: error.message }, null, 2);
+      } finally {
+        resultPanel.classList.remove('loading');
+      }
+    }
+
+    submitEl.addEventListener('click', runQuery);
+    clearEl.addEventListener('click', () => {
+      questionEl.value = '';
+      emptyState.hidden = false;
+      responseEl.hidden = true;
+      sectionsEl.replaceChildren();
+      metaEl.textContent = '';
+      jsonViewEl.textContent = '';
+      lastPayload = null;
+      setViewMode('cards');
+    });
+    questionEl.addEventListener('keydown', (event) => {
+      if ((event.metaKey || event.ctrlKey) && event.key === 'Enter') {
+        runQuery();
+      }
+    });
+    document.querySelectorAll('[data-question]').forEach((button) => {
+      button.addEventListener('click', () => {
+        questionEl.value = button.dataset.question;
+        runQuery();
+      });
+    });
+    cardModeEl.addEventListener('click', () => setViewMode('cards'));
+    jsonModeEl.addEventListener('click', () => setViewMode('json'));
+    setViewMode('cards');
+  </script>
+</body>
+</html>

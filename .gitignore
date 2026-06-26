@@ -1,0 +1,15 @@
+# Environment
+infra/.env
+
+# Python
+agent/.venv/
+agent/__pycache__/
+
+# Java
+services/**/target/
+
+# Grafana and local volumes
+infra/.data/
+
+# OS
+.DS_Store

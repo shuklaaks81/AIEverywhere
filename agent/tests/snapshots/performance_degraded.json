@@ -1,0 +1,37 @@
+{
+  "status": "degraded",
+  "summary": "slow_endpoint_latency_ms is 1200.0ms and considered high.; memory_usage is 88.0% and considered high.; Found 2 matching log lines in the last 10 minutes.",
+  "sections": [
+    {
+      "title": "Findings",
+      "items": [
+        "slow_endpoint_latency_ms is 1200.0ms and considered high.",
+        "memory_usage is 88.0% and considered high.",
+        "Found 2 matching log lines in the last 10 minutes."
+      ]
+    },
+    {
+      "title": "Likely Causes",
+      "items": [
+        "application request latency is elevated on the /slow path",
+        "host memory pressure may be contributing",
+        "recent logs contain slow, timeout, or failed-operation signals"
+      ]
+    },
+    {
+      "title": "Next Steps",
+      "items": [
+        "Check whether application request latency is elevated on the /slow path.",
+        "Check whether host memory pressure may be contributing.",
+        "Check whether recent logs contain slow, timeout, or failed-operation signals."
+      ]
+    }
+  ],
+  "alerts": [],
+  "next_steps": [
+    "Check whether application request latency is elevated on the /slow path.",
+    "Check whether host memory pressure may be contributing.",
+    "Check whether recent logs contain slow, timeout, or failed-operation signals."
+  ],
+  "answer": "Summary: slow_endpoint_latency_ms is 1200.0ms and considered high.; memory_usage is 88.0% and considered high.; Found 2 matching log lines in the last 10 minutes.\n\nFindings:\n- slow_endpoint_latency_ms is 1200.0ms and considered high.\n- memory_usage is 88.0% and considered high.\n- Found 2 matching log lines in the last 10 minutes.\n\nLikely Causes:\n- application request latency is elevated on the /slow path\n- host memory pressure may be contributing\n- recent logs contain slow, timeout, or failed-operation signals\n\nNext Steps:\n- Check whether application request latency is elevated on the /slow path.\n- Check whether host memory pressure may be contributing.\n- Check whether recent logs contain slow, timeout, or failed-operation signals."
+}

@@ -1,0 +1,107 @@
+services:
+  grafana:
+    image: grafana/grafana-oss:latest
+    container_name: aieverywhere-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-admin}
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+    depends_on:
+      - prometheus
+      - loki
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: aieverywhere-prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --web.enable-lifecycle
+    ports:
+      - "9090:9090"
+    volumes:
+      - ../monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    depends_on:
+      - nodeexporter
+      - sample-service
+
+  loki:
+    image: grafana/loki:latest
+    container_name: aieverywhere-loki
+    command:
+      - -config.file=/etc/loki/config.yaml
+    ports:
+      - "3100:3100"
+    volumes:
+      - ../monitoring/loki/loki-config.yaml:/etc/loki/config.yaml:ro
+      - loki-data:/loki
+
+  promtail:
+    image: grafana/promtail:latest
+    container_name: aieverywhere-promtail
+    command:
+      - -config.file=/etc/promtail/config.yaml
+      - -config.expand-env=true
+    environment:
+      DOCKER_ROOT: ${DOCKER_ROOT:-/var/lib/docker}
+    volumes:
+      - ../monitoring/promtail/promtail-config.yaml:/etc/promtail/config.yaml:ro
+      - ${DOCKER_ROOT:-/var/lib/docker}:${DOCKER_ROOT:-/var/lib/docker}:ro
+      - promtail-positions:/tmp
+    depends_on:
+      - loki
+
+  nodeexporter:
+    image: prom/node-exporter:latest
+    container_name: aieverywhere-nodeexporter
+    ports:
+      - "9100:9100"
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: aieverywhere-ollama
+    expose:
+      - "11434"
+    volumes:
+      - ollama-data:/root/.ollama
+
+  agent:
+    build:
+      context: ../agent
+    container_name: aieverywhere-agent
+    environment:
+      PROMETHEUS_URL: http://prometheus:9090
+      LOKI_URL: http://loki:3100
+      GRAFANA_URL: http://grafana:3000
+      OLLAMA_URL: http://ollama:11434
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-llama3.2:3b}
+    volumes:
+      - ../docs:/app/docs:ro
+    ports:
+      - "8000:8000"
+    depends_on:
+      - grafana
+      - prometheus
+      - loki
+      - ollama
+
+  sample-service:
+    build:
+      context: ../services/sample-service
+    container_name: aieverywhere-sample-service
+    environment:
+      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: health,info,prometheus
+    ports:
+      - "8080:8080"
+
+volumes:
+  grafana-data:
+  prometheus-data:
+  loki-data:
+  promtail-positions:
+  ollama-data:

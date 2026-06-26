@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: sample-service
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      show-details: always
+
+server:
+  port: 8080

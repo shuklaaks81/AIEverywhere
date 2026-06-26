@@ -1,0 +1,52 @@
+{
+  "status": "reference",
+  "summary": "Local architecture reference retrieved with runtime model and planned component context.",
+  "sections": [
+    {
+      "title": "Core Components",
+      "items": [
+        "Grafana OSS provides dashboards and log exploration.",
+        "Prometheus scrapes metrics from Prometheus itself, nodeexporter, and the sample Spring Boot service.",
+        "Loki stores logs and is fed by Promtail.",
+        "Ollama provides local offline LLM inference for the agent.",
+        "The agent is a FastAPI and LangGraph service that answers observability questions.",
+        "The sample Spring Boot service exposes Actuator and Prometheus metrics."
+      ]
+    },
+    {
+      "title": "Runtime Model",
+      "items": [
+        "Primary model: qwen2.5-coder:14b",
+        "Fallback model: deepseek-coder:6.7b"
+      ]
+    },
+    {
+      "title": "Planned Components",
+      "items": [
+        "Kafka is modeled in Day 5 through synthetic metrics exported by the sample Spring Boot service.",
+        "Apache Ignite is modeled in Day 5 through synthetic metrics exported by the sample Spring Boot service.",
+        "In the current repo state, Kafka and Ignite are not yet running containers.",
+        "The agent reads those simulated component signals from Prometheus so domain questions are grounded in live telemetry."
+      ]
+    },
+    {
+      "title": "Reasoning Model",
+      "items": [
+        "Day 2: single-turn health and log inspection.",
+        "Day 3: conversation memory and basic root-cause heuristics.",
+        "Day 4 target: domain-specific knowledge and component-aware questions.",
+        "Day 5 target: synthetic Kafka and Ignite signal ingestion via Prometheus-backed domain metrics.",
+        "Day 6 target: alert recommendations and remediation playbooks derived from domain signal thresholds."
+      ]
+    },
+    {
+      "title": "Source",
+      "items": [
+        "architecture.md"
+      ]
+    }
+  ],
+  "alerts": [],
+  "next_steps": [],
+  "answer": "Summary: Local architecture reference retrieved with runtime model and planned component context.\n\nCore Components:\n- Grafana OSS provides dashboards and log exploration.\n- Prometheus scrapes metrics from Prometheus itself, nodeexporter, and the sample Spring Boot service.\n- Loki stores logs and is fed by Promtail.\n- Ollama provides local offline LLM inference for the agent.\n- The agent is a FastAPI and LangGraph service that answers observability questions.\n- The sample Spring Boot service exposes Actuator and Prometheus metrics.\n\nRuntime Model:\n- Primary model: qwen2.5-coder:14b\n- Fallback model: deepseek-coder:6.7b\n\nPlanned Components:\n- Kafka is modeled in Day 5 through synthetic metrics exported by the sample Spring Boot service.\n- Apache Ignite is modeled in Day 5 through synthetic metrics exported by the sample Spring Boot service.\n- In the current repo state, Kafka and Ignite are not yet running containers.\n- The agent reads those simulated component signals from Prometheus so domain questions are grounded in live telemetry.\n\nReasoning Model:\n- Day 2: single-turn health and log inspection.\n- Day 3: conversation memory and basic root-cause heuristics.\n- Day 4 target: domain-specific knowledge and component-aware questions.\n- Day 5 target: synthetic Kafka and Ignite signal ingestion via Prometheus-backed domain metrics.\n- Day 6 target: alert recommendations and remediation playbooks derived from domain signal thresholds.\n\nSource:\n- architecture.md"
+}

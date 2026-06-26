@@ -1,0 +1,50 @@
+{
+  "status": "degraded",
+  "summary": "Kafka synthetic metrics show attention points: 4 under-replicated partitions are reported; consumer lag is high at 1450",
+  "sections": [
+    {
+      "title": "Signals",
+      "items": [
+        "Status: degraded",
+        "Brokers: 3",
+        "Consumer lag: 1450",
+        "Under-replicated partitions: 4"
+      ]
+    },
+    {
+      "title": "Alerts",
+      "items": [
+        "KafkaUnderReplicatedPartitions (critical): Synthetic under-replicated partitions = 4.",
+        "KafkaConsumerLagHigh (critical): Synthetic consumer lag = 1450."
+      ]
+    },
+    {
+      "title": "Next Steps",
+      "items": [
+        "Inspect broker health and ISR shrink events for the affected partitions.",
+        "Confirm disk, CPU, and network are not throttling replication traffic.",
+        "Delay partition reassignments or broker maintenance until replication catches up."
+      ]
+    }
+  ],
+  "alerts": [
+    {
+      "name": "KafkaUnderReplicatedPartitions",
+      "severity": "critical",
+      "condition": "Synthetic under-replicated partitions = 4.",
+      "rationale": "Replication safety is reduced and data loss risk increases if another broker fails."
+    },
+    {
+      "name": "KafkaConsumerLagHigh",
+      "severity": "critical",
+      "condition": "Synthetic consumer lag = 1450.",
+      "rationale": "Consumers are materially behind and end-to-end latency is likely user visible."
+    }
+  ],
+  "next_steps": [
+    "Inspect broker health and ISR shrink events for the affected partitions.",
+    "Confirm disk, CPU, and network are not throttling replication traffic.",
+    "Delay partition reassignments or broker maintenance until replication catches up."
+  ],
+  "answer": "Summary: Kafka synthetic metrics show attention points: 4 under-replicated partitions are reported; consumer lag is high at 1450\n\nSignals:\n- Status: degraded\n- Brokers: 3\n- Consumer lag: 1450\n- Under-replicated partitions: 4\n\nAlerts:\n- KafkaUnderReplicatedPartitions (critical): Synthetic under-replicated partitions = 4.\n- KafkaConsumerLagHigh (critical): Synthetic consumer lag = 1450.\n\nNext Steps:\n- Inspect broker health and ISR shrink events for the affected partitions.\n- Confirm disk, CPU, and network are not throttling replication traffic.\n- Delay partition reassignments or broker maintenance until replication catches up."
+}
