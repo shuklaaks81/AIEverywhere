@@ -190,6 +190,11 @@
       flex-wrap: wrap;
     }
 
+    .micro {
+      padding: 8px 12px;
+      font-size: 0.9rem;
+    }
+
     .badge {
       display: inline-flex;
       align-items: center;
@@ -312,6 +317,8 @@
               <option value="kafka" selected>Demo: Kafka incident</option>
               <option value="ignite">Demo: Ignite incident</option>
               <option value="performance">Demo: Performance incident</option>
+              <option value="change">Demo: Change log</option>
+              <option value="logs">Demo: Log inquiry</option>
             </select>
           </div>
           <div class="quick-prompts">
@@ -319,6 +326,8 @@
             <button class="pill" type="button" data-question="What is the architecture of this system?">Architecture</button>
             <button class="pill" type="button" data-question="How is Kafka doing right now and what should I do next?">Kafka</button>
             <button class="pill" type="button" data-question="Is Ignite healthy right now and what alert should I raise?">Ignite</button>
+            <button class="pill" type="button" data-question="What changed today?">Change log</button>
+            <button class="pill" type="button" data-question="What do the recent logs show for ping requests?">Logs</button>
           </div>
           <div class="quick-prompts">
             <button id="submit" class="primary" type="button">Run Query</button>
@@ -339,6 +348,7 @@
             <div class="response-tools">
               <button id="card-mode" class="secondary" type="button">Operator cards</button>
               <button id="json-mode" class="secondary" type="button">Raw JSON</button>
+              <button id="copy-json" class="secondary micro" type="button">Copy payload</button>
             </div>
           </div>
           <div id="card-view">
@@ -371,6 +381,7 @@
     const jsonViewEl = document.getElementById('json-view');
     const cardModeEl = document.getElementById('card-mode');
     const jsonModeEl = document.getElementById('json-mode');
+    const copyJsonEl = document.getElementById('copy-json');
     const demoModeEl = document.getElementById('demo-mode');
     const demoScenarioEl = document.getElementById('demo-scenario');
     let lastPayload = null;
@@ -483,6 +494,9 @@
           if (lowered.includes('kafka')) demoScenarioEl.value = 'kafka';
           else if (lowered.includes('ignite')) demoScenarioEl.value = 'ignite';
           else if (lowered.includes('architecture')) demoScenarioEl.value = 'architecture';
+          else if (lowered.includes('changed')) demoScenarioEl.value = 'change';
+          else if (lowered.includes('logs')) demoScenarioEl.value = 'logs';
+          else if (lowered.includes('performance') || lowered.includes('slow')) demoScenarioEl.value = 'performance';
           else demoScenarioEl.value = 'health';
         }
         runQuery();
@@ -490,6 +504,24 @@
     });
     cardModeEl.addEventListener('click', () => setViewMode('cards'));
     jsonModeEl.addEventListener('click', () => setViewMode('json'));
+    copyJsonEl.addEventListener('click', async () => {
+      if (!lastPayload) {
+        return;
+      }
+      const text = JSON.stringify(lastPayload, null, 2);
+      try {
+        await navigator.clipboard.writeText(text);
+        copyJsonEl.textContent = 'Copied';
+        setTimeout(() => {
+          copyJsonEl.textContent = 'Copy payload';
+        }, 1200);
+      } catch {
+        copyJsonEl.textContent = 'Copy failed';
+        setTimeout(() => {
+          copyJsonEl.textContent = 'Copy payload';
+        }, 1200);
+      }
+    });
     demoModeEl.addEventListener('change', () => {
       demoScenarioEl.disabled = !demoModeEl.checked;
     });

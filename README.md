@@ -1,5 +1,7 @@
 # AIEverywhere
 
+[![Snapshot Tests](https://github.com/shuklaaks81/AIEverywhere/actions/workflows/snapshot-tests.yml/badge.svg)](https://github.com/shuklaaks81/AIEverywhere/actions/workflows/snapshot-tests.yml)
+
 Day 1 monorepo scaffold for a local observability and agent demo stack.
 
 ## Quick Access
@@ -205,6 +207,8 @@ Available built-in scenarios:
 - `kafka`
 - `ignite`
 - `performance`
+- `change`
+- `logs`
 
 Snapshot-style UX regression tests:
 

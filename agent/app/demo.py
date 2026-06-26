@@ -147,6 +147,62 @@ _DEMO_RESPONSES: dict[str, dict] = {
         "used_sources": ["demo:fixture"],
         "context": {"metrics_data": {}, "logs_data": {}, "root_cause_data": {"summary": "demo"}, "knowledge_data": {}, "domain_data": {}},
     },
+    "change": {
+        "answer": "Summary: Recent recorded project changes retrieved from the local change log.\n\nDay 5 Status:\n- Added synthetic Kafka and Ignite metrics to the sample service for Prometheus ingestion.\n- Switched Kafka and Ignite agent answers from static placeholders to Prometheus-backed synthetic telemetry.\n\nDay 6 Status:\n- Added alert recommendations for Kafka and Ignite based on synthetic domain thresholds.\n- Added remediation playbook steps so domain answers now include actionable next steps.\n\nDay 7 Status:\n- Polished operator UX with concise structured answers built from Summary, section blocks, alerts, and next steps.\n- Added top-level structured response fields so UI clients can render operator guidance without parsing freeform text.\n\nSource:\n- change-log.md",
+        "status": "reference",
+        "summary": "Recent recorded project changes retrieved from the local change log.",
+        "sections": [
+            {"title": "Day 5 Status", "items": [
+                "Added synthetic Kafka and Ignite metrics to the sample service for Prometheus ingestion.",
+                "Switched Kafka and Ignite agent answers from static placeholders to Prometheus-backed synthetic telemetry."]},
+            {"title": "Day 6 Status", "items": [
+                "Added alert recommendations for Kafka and Ignite based on synthetic domain thresholds.",
+                "Added remediation playbook steps so domain answers now include actionable next steps."]},
+            {"title": "Day 7 Status", "items": [
+                "Polished operator UX with concise structured answers built from Summary, section blocks, alerts, and next steps.",
+                "Added top-level structured response fields so UI clients can render operator guidance without parsing freeform text."]},
+            {"title": "Source", "items": ["change-log.md"]},
+        ],
+        "alerts": [],
+        "next_steps": [],
+        "query_type": "change_info",
+        "conversation_id": "demo-change",
+        "used_sources": ["demo:fixture"],
+        "context": {"metrics_data": {}, "logs_data": {}, "root_cause_data": {}, "knowledge_data": {"source": "change-log.md"}, "domain_data": {}},
+    },
+    "logs": {
+        "answer": "Summary: Found 3 matching log lines in the last 10 minutes.\n\nExamples:\n- level=error service=sample-service message=Timeout calling downstream dependency\n- level=error service=sample-service message=Retry budget exhausted for ping workflow\n- java.lang.IllegalStateException: synthetic demo exception\n\nNext Steps:\n- Inspect the matching service logs in Grafana or Loki for full context.",
+        "status": "attention",
+        "summary": "Found 3 matching log lines in the last 10 minutes.",
+        "sections": [
+            {"title": "Examples", "items": [
+                "level=error service=sample-service message=Timeout calling downstream dependency",
+                "level=error service=sample-service message=Retry budget exhausted for ping workflow",
+                "java.lang.IllegalStateException: synthetic demo exception"]},
+            {"title": "Next Steps", "items": ["Inspect the matching service logs in Grafana or Loki for full context."]},
+        ],
+        "alerts": [],
+        "next_steps": ["Inspect the matching service logs in Grafana or Loki for full context."],
+        "query_type": "log_inquiry",
+        "conversation_id": "demo-logs",
+        "used_sources": ["demo:fixture"],
+        "context": {
+            "metrics_data": {},
+            "logs_data": {
+                "query": "{job=\"docker\"} |~ \"(?i)error|exception\"",
+                "line_count": 3,
+                "examples": [
+                    "level=error service=sample-service message=Timeout calling downstream dependency",
+                    "level=error service=sample-service message=Retry budget exhausted for ping workflow",
+                    "java.lang.IllegalStateException: synthetic demo exception"
+                ],
+                "summary": "Found 3 matching log lines in the last 10 minutes."
+            },
+            "root_cause_data": {},
+            "knowledge_data": {},
+            "domain_data": {}
+        },
+    },
 }
 
 
@@ -154,6 +210,8 @@ SCENARIO_ALIASES = {
     "system-health": "health",
     "operator-console": "kafka",
     "response-view": "kafka",
+    "change_info": "change",
+    "log_inquiry": "logs",
 }
 
 
